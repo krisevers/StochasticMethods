@@ -5,7 +5,7 @@ import os
 os.chdir('..')
 
 """
-Generate time-series of a 1D linear system
+Generate time-series of a 1D non-linear system (logistic equation)
 """
 
 T = 100
@@ -13,15 +13,14 @@ I = 10
 DX = np.zeros((T, I))
 X  = np.zeros((T, I))
 
-a = -0.05
-x_0 = np.linspace(-10, 10, I)
+a = -0.001
+x_0 = np.linspace(-0.001, 0.001, I)
 
 for i in range(I):
     X[0, i] = x_0[i]
     for t in range(1,T):
-        DX[t,i] = a*X[t-1,i]
+        DX[t,i] = a*X[t-1,i] - X[t-1,i]**2
         X[t,i] = X[t-1,i] + DX[t,i]
-
 
 colors = plt.cm.Spectral(np.linspace(0, 1, I))
 plt.figure()
@@ -40,7 +39,7 @@ ax.spines['left'].set_linewidth(3)
 ax.spines.right.set_visible(False)
 ax.spines.top.set_visible(False)
 plt.tight_layout()
-plt.savefig('svg/1D_LS_a{}.svg'.format(a))
+plt.savefig('svg/1D_NLS_a{}.svg'.format(a))
 plt.show()
 
 
@@ -64,5 +63,5 @@ ax.spines.top.set_visible(False)
 ax.spines.left.set_visible(False)
 ax.spines.bottom.set_visible(False)
 plt.tight_layout()
-plt.savefig('svg/1D_LS_a{}_PS.svg'.format(a))
+plt.savefig('svg/1D_NLS_a{}_PS.svg'.format(a))
 plt.show()
